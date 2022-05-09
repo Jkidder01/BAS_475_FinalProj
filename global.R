@@ -6,7 +6,8 @@ library(shinydashboard)
 library(lubridate)
 library(seasonal)
 library(zoo)
- 
+library(glue)
+
  Milk <- read.table("Milk.txt",header = TRUE,sep = ",")
  
  Milk$Date <- paste(Milk$Year, Milk$Month, sep = "-")

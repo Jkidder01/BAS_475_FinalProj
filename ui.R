@@ -8,8 +8,9 @@ dashboardPage(
       menuItem("Further Analysis", tabName = "tab_3", icon = icon("th")),
       menuItem("Simple Forecasting", tabName = "tab_4", icon = icon("th")),
       menuItem("Exponential Smoothing", tabName = "tab_5", icon = icon("th")),
-      menuItem("ARIMA Modeling", tabName = "tab_6", icon = icon("th")),
-      menuItem("Surprise", tabName = "tab_7")
+      menuItem("Manual ARIMA Modeling", tabName = "tab_6", icon = icon("th")),
+      menuItem("Automatic ARIMA Modeling", tabName = "tab_7", icon = icon("th")),
+      menuItem("Surprise", tabName = "tab_8")
     )
   ),
   
@@ -26,7 +27,11 @@ dashboardPage(
                   h4("     --- Seasonality will produce a seasonal time series plot"),
                   h4("     --- AutoCorrelation will produce a lag plot of our dataset"),
                   h4("     --- Decomposition will break down our time series into its seasonal, trend, and irregular components"),
-                  h4("- The 'Even Further Analysis' tab will present you with a seasonal naive model of your selected dairy product")
+                  h4("The following tabs will show you a series of analyses pertaining to your desired product of interest;"),
+                  h4("- Simple Forecasting will provide a Naive, Seasonal Naive, Mean and Drift Model of your desired product of interest"),
+                  h4("- Exponential Smoothing will provide both a Holts and Holt-Winters forecast of your desired product of interest"),
+                  h4("- Manual ARIMA Modeling will allow you to choose values of pdq() + PDQ() to perform an ARIMA forecast on your desired product of interest"),
+                  h4("- Automatic ARIMA Modeling will provide you with the computer chosen ARIMA forecast of your desired product of interest")
                 )
               )
       ),
@@ -77,12 +82,38 @@ tabItem(tabName = "tab_5",
 
 tabItem(tabName = "tab_6",
         fluidRow(
-          box(plotOutput('MANUAL')),
-          box(plotOutput('AUTO'))
+          box(
+            selectInput("p", label = h3("Select Autoregression Value"),
+                        choices = list("0" = 0, "1" = 1, "2" = 2),
+                        selected = 1),
+            selectInput("d", label = h3("Select Differencing Value"),
+                        choices = list("0" = 0, "1" = 1, "2" = 2),
+                        selected = 1),
+            selectInput("q", label = h3("Select Moving Average Value"),
+                        choices = list("0" = 0, "1" = 1, "2" = 2),
+                        selected = 1),
+            selectInput("ps", label = h3("Select Seasonal Autoregression Value"),
+                        choices = list("0" = 0, "1" = 1, "2" = 2),
+                        selected = 1),
+            selectInput("ds", label = h3("Select Seasonal Differencing Value"),
+                        choices = list("0" = 0, "1" = 1, "2" = 2),
+                        selected = 1),
+            selectInput("qs", label = h3("Select Seasonal Moving Average Value"),
+                        choices = list("0" = 0, "1" = 1, "2" = 2),
+                        selected = 1),
+            
+          ),
+          box(plotOutput('MANUAL'))
         )
 ),
 
 tabItem(tabName = "tab_7",
+        fluidRow(
+          box(plotOutput('AUTO')),
+        )
+        ),
+
+tabItem(tabName = "tab_8",
         fluidRow(
           box(img(src="Cow.gif", height = 500, width = 600))
         )

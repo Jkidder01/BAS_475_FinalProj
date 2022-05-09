@@ -121,7 +121,7 @@ observeEvent(input$Dairy, {
     forecast_data <- Milk_ts[, c('Date', input$Dairy)]
     
     fit <- forecast_data %>%
-      model(RW(~trend()))
+      model(RW(~drift()))
     
     fit %>%
       forecast() %>%
@@ -173,8 +173,12 @@ observeEvent(input$Dairy, {
     
     forecast_data <- Milk_ts[, c('Date', input$Dairy)]
     
+    arima_formula <- glue("{input$Dairy} ~ pdq({input$p}, {input$d}, {input$q}) + PDQ({input$ps}, {input$ds}, {input$qs})")
+
+    arima_formula <- formula(arima_formula)
+    
     fit <- forecast_data %>%
-      model(ARIMA())
+      model(ARIMA(arima_formula))
     
     fit %>%
       forecast(h='5 years')%>%
